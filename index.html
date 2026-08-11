@@ -91,7 +91,7 @@
             z-index: 2;
         }
 
-        /* Modal ป๊อปอัป */
+        /* Modal ป๊อปอัปทั่วไป */
         .modal {
             display: none;
             position: fixed;
@@ -108,10 +108,10 @@
 
         .modal-content {
             background-color: #ffffff;
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             text-align: center;
-            max-width: 400px;
+            max-width: 420px;
             width: 100%;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
@@ -124,21 +124,50 @@
         .modal-content p {
             font-size: 16px;
             margin-bottom: 20px;
+            line-height: 1.5;
         }
 
-        .modal-content button {
-            padding: 10px 25px;
+        .btn-main {
+            padding: 12px 25px;
             background-color: #d63384;
             color: #ffffff;
             border: none;
             border-radius: 20px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin: 5px;
         }
 
-        .modal-content button:hover {
+        .btn-main:hover {
             background-color: #b02a6b;
+        }
+
+        /* สไตล์กล่องจดหมายอวยพร */
+        .letter-box {
+            background-color: #fff9fa;
+            border: 2px dashed #f8bbd0;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+            color: #444;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .letter-box h3 {
+            color: #d63384;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .letter-box p {
+            font-size: 15px;
+            line-height: 1.7;
+            text-indent: 20px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -151,7 +180,7 @@
         <!-- การ์ดใบที่ 1 -->
         <div class="card-box" data-is-real="false">
             <div class="card-content">
-                <img src="https://ibb.co/S7mzGyFd" alt="ลูกชาย 1">
+                <img src="https://i.ibb.co/GDt1kZc/IMG-1303.jpg" alt="ลูกชาย 1">
                 <p>😜 เกือบใช่แล้ว!</p>
                 <p>ลองใบอื่นอีกที</p>
             </div>
@@ -161,7 +190,7 @@
         <!-- การ์ดใบที่ 2 -->
         <div class="card-box" data-is-real="false">
             <div class="card-content">
-                <img src="https://ibb.co/t6xNc08" alt="ลูกชาย 2">
+                <img src="https://i.ibb.co/tTf4Pcn5/IMG-1304.jpg" alt="ลูกชาย 2">
                 <p>😜 คนนี้ยิ้มกว้างไปนิด!</p>
                 <p>ลองหาดูใหม่นะ</p>
             </div>
@@ -171,7 +200,7 @@
         <!-- การ์ดใบที่ 3 (ใบที่ถูกต้อง) -->
         <div class="card-box" data-is-real="true">
             <div class="card-content">
-                <img src="https://ibb.co/dw9rJ6Xy" alt="ลูกชายปากจู๋">
+                <img src="https://i.ibb.co/8D4mNvCK/IMG-1305.jpg" alt="ลูกชายปากจู๋">
                 <p>🎉 ลูกชายตัวจริง!</p>
                 <p>รักแม่ที่สุดในโลก ❤️</p>
             </div>
@@ -181,7 +210,7 @@
         <!-- การ์ดใบที่ 4 -->
         <div class="card-box" data-is-real="false">
             <div class="card-content">
-                <img src="https://ibb.co/rGfQF8j7" alt="ลูกชาย 4">
+                <img src="https://i.ibb.co/k6DtvBN9/IMG-1306.jpg" alt="ลูกชาย 4">
                 <p>😜 ยังไม่ใช่จ้า!</p>
                 <p>ลองขูดใบอื่นดูใหม่</p>
             </div>
@@ -189,21 +218,40 @@
         </div>
     </div>
 
-    <!-- Modal แจ้งเตือน -->
-    <div class="modal" id="resultModal">
+    <!-- Modal แจ้งเตือนเมื่อทายผิด -->
+    <div class="modal" id="wrongModal">
         <div class="modal-content">
-            <h2 id="modalTitle">ข้อความ</h2>
-            <p id="modalBody">รายละเอียด</p>
-            <button onclick="closeModal()">ปิดหน้าต่าง</button>
+            <h2>❌ ยังไม่ใช่จ้า!</h2>
+            <p>คนนี้ไม่ใช่ลูกที่ทำปากจู๋นะ!<br>ลองขูดหาใบอื่นดูใหม่ 😜</p>
+            <button class="btn-main" onclick="closeModal('wrongModal')">ลองใหม่</button>
+        </div>
+    </div>
+
+    <!-- Modal แจ้งเตือนเมื่อทายถูก -->
+    <div class="modal" id="winModal">
+        <div class="modal-content">
+            <h2>🎉 เก่งมากแม่! หาเจอแล้ว!</h2>
+            <p>ทายถูกแล้ว! ลูกชายตัวจริงเสียงจริง ❤️<br>มีจดหมายอวยพรสุดพิเศษรอใส่อยู่ตรงนี้ด้วยนะ!</p>
+            <button class="btn-main" onclick="openLetter()">💌 คลิกเปิดอ่านคำอวยพรจากลูก</button>
+        </div>
+    </div>
+
+    <!-- Modal แสดงการ์ดคำอวยพร -->
+    <div class="modal" id="letterModal">
+        <div class="modal-content">
+            <div class="letter-box">
+                <h3>💌 สุขสันต์วันแม่ครับแม่ 🌸</h3>
+                <p>กราบสุขสันต์วันแม่ครับแม่ ขอบคุณแม่ที่คอยดูแล อบรมสั่งสอน และมอบความรักให้ลูกมาโดยตลอดนะครับ</p>
+                <p>ขอให้แม่มีความสุขมากๆ สุขภาพร่างกายแข็งแรง ไม่มีโรคภัยไข้เจ็บ ยิ้มเยอะๆ ในทุกๆ วัน และอยู่เป็นร่มโพธิ์ร่มไทรให้ลูกไปนานๆ นะครับ</p>
+                <p style="text-align: right; font-weight: bold; color: #d63384;">รักแม่ที่สุดในโลกเลยนะ! 💕</p>
+            </div>
+            <button class="btn-main" onclick="closeModal('letterModal')">ปิดการ์ดอวยพร</button>
         </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const cardBoxes = document.querySelectorAll('.card-box');
-            const modal = document.getElementById('resultModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
 
             cardBoxes.forEach((box, index) => {
                 const canvas = box.querySelector('canvas');
@@ -275,13 +323,10 @@
 
                         const isReal = box.getAttribute('data-is-real') === 'true';
                         if (isReal) {
-                            modalTitle.innerText = '🎉 เก่งมากแม่!';
-                            modalBody.innerText = 'ทายถูกแล้ว! ลูกชายตัวจริงเสียงจริง รักนะจุ๊บๆ 💕';
+                            document.getElementById('winModal').style.display = 'flex';
                         } else {
-                            modalTitle.innerText = '❌ ยังไม่ใช่!';
-                            modalBody.innerText = 'คนนี้ไม่ใช่ลูกที่ทำปากจู๋นะ! ลองขูดใบอื่นดูใหม่ 😜';
+                            document.getElementById('wrongModal').style.display = 'flex';
                         }
-                        modal.style.display = 'flex';
                     }
                 }
 
@@ -295,8 +340,13 @@
             });
         });
 
-        function closeModal() {
-            document.getElementById('resultModal').style.display = 'none';
+        function openLetter() {
+            document.getElementById('winModal').style.display = 'none';
+            document.getElementById('letterModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
     </script>
 </body>
